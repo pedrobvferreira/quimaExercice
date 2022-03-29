@@ -39,26 +39,28 @@ public class BookControllerTest {
 	
 	@Test
 	public void whenKeyIsPresent_thenReturnsTrue() {
-	    Map<String, String> map = Collections.singletonMap("BookName", "BookValue");
+	    Map<String, String> map = Collections.singletonMap("Book1", "BookValue");
 	    
-	    assertTrue(map.containsKey("BookName"));
-	    assertFalse(map.containsKey("OtherBook"));
+	    assertTrue(map.containsKey("Book1"));
+	    assertFalse(map.containsKey("Book2"));
 	}
 	
 	@Test
 	public void savePersonTest() throws Exception {
 		var book = new Book();
-		book.setId(1L);
-		book.setName("Example");
-		book.setDescription("Example Exercice");
+		book.setId(2345L);
+		book.setName("the name of the book");
+		book.setDescription("a short description");
+		book.setIdAuthor(123L);
         when(bookService.saveBook(any(Book.class))).thenReturn(book);
         
         mockMvc.perform(post(endpoint + "/savebook")
         	.content(new ObjectMapper().writeValueAsString(book))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").exists())
-            .andExpect(jsonPath("$.name").value("Example"))
-            .andExpect(jsonPath("$.description").value("Example Exercice"))
+            .andExpect(jsonPath("$.name").value("the name of the book"))
+            .andExpect(jsonPath("$.description").value("a short description"))
+            .andExpect(jsonPath("$.idAuthor").value(123L))
             .andDo(print())
             .andExpect(status().isCreated())
             .andReturn();
