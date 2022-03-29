@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qimaone.interview.entities.Book;
-import com.qimaone.interview.services.AuthorService;
 import com.qimaone.interview.services.BookService;
 
 @RestController
@@ -18,8 +17,8 @@ public class BookController {
 	
 	@Autowired
 	private BookService bookService;
-	@Autowired
-	private AuthorService authorService;
+//	@Autowired
+//	private AuthorService authorService;
 	
 	@PostMapping("/savebook")
 	private ResponseEntity<?> saveBook(@RequestBody Book book) {
@@ -27,14 +26,15 @@ public class BookController {
 		if (existingBook) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			var existingAuthor = authorService.get(book.getIdAuthor());
 //			var existingAuthor = authorService.existingAuthor(book.getIdAuthor());
-			if (!existingAuthor.isPresent()) {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			} else {
-				var savedBook = bookService.saveBook(book);
-				return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
-			}
+//			if (!existingAuthor.isPresent()) {
+//				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//			} else {
+//				var savedBook = bookService.saveBook(book);
+//				return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+//			}
+			var savedBook = bookService.saveBook(book);
+			return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
 		}
 	}
 }

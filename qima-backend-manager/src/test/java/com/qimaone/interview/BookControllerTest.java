@@ -38,8 +38,8 @@ public class BookControllerTest {
 	@MockBean
 	private BookService bookService;
 	
-	@MockBean
-	private AuthorService authorService;
+//	@MockBean
+//	private AuthorService authorService;
 	
 	
 	@Test
@@ -52,10 +52,10 @@ public class BookControllerTest {
 	
 	@Test
 	public void savePersonTest() throws Exception {
-		var author = new Author(123L, "Chaitanya");
-		when(authorService.saveAuthor(any(Author.class))).thenReturn(author);
+//		var author = new Author(123L, "Chaitanya");
+//		when(authorService.saveAuthor(any(Author.class))).thenReturn(author);
 		
-		var book = new Book(2345L, "the name of the book", "a short description", author.getId());
+		var book = new Book(2345L, "the name of the book", "a short description", 123L);
         when(bookService.saveBook(any(Book.class))).thenReturn(book);
         
         mockMvc.perform(post(endpoint + "/savebook")
