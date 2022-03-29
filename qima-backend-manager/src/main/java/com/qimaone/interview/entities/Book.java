@@ -10,4 +10,14 @@ public class Book {
     private String description;
     
     private Long idAuthor;
+    
+    public Book() {
+	}
+	
+    public Book(Long id, String name,  String description, Long idAuthor) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.idAuthor = idAuthor;
+	}
 }

@@ -22,7 +22,9 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import com.qimaone.interview.controllers.BookController;
+import com.qimaone.interview.entities.Author;
 import com.qimaone.interview.entities.Book;
+import com.qimaone.interview.services.AuthorService;
 import com.qimaone.interview.services.BookService;
 
 @WebMvcTest(BookController.class)
@@ -36,6 +38,9 @@ public class BookControllerTest {
 	@MockBean
 	private BookService bookService;
 	
+	@MockBean
+	private AuthorService authorService;
+	
 	
 	@Test
 	public void whenKeyIsPresent_thenReturnsTrue() {
@@ -47,11 +52,10 @@ public class BookControllerTest {
 	
 	@Test
 	public void savePersonTest() throws Exception {
-		var book = new Book();
-		book.setId(2345L);
-		book.setName("the name of the book");
-		book.setDescription("a short description");
-		book.setIdAuthor(123L);
+		var author = new Author(123L, "Chaitanya");
+		when(authorService.saveAuthor(any(Author.class))).thenReturn(author);
+		
+		var book = new Book(2345L, "the name of the book", "a short description", author.getId());
         when(bookService.saveBook(any(Book.class))).thenReturn(book);
         
         mockMvc.perform(post(endpoint + "/savebook")
